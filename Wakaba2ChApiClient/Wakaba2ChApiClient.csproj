@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp2.2</TargetFramework>
         <PackageId>2Ch-API-Client</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.0.2</Version>
         <Authors>oldhowl</Authors>
         <PackageLicenseUrl>https://github.com/oldhowl/2ch-API-Client/wiki/License</PackageLicenseUrl>
         <Description>Simple 2ch API client</Description>

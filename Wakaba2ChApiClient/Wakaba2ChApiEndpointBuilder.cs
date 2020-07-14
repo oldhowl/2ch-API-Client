@@ -35,12 +35,15 @@ namespace Wakaba2ChApiClient
         public static Uri GetThreadDetails(string board, string threadNum)
         {
             board = board.Trim('/');
-            return new Uri(Main2ChApiUrl).Append(board).Append($"{threadNum}.json");
+            return new Uri(Main2ChApiUrl)
+                .Append(board)
+                .Append("res")
+                .Append($"{threadNum}.json");
         }
 
         public static Uri ThreadOptionsEndpoint()
         {
-            return new Uri(Main2ChApiUrl).Append(MobileParameters+ "get_boards");
+            return new Uri(Main2ChApiUrl).Append(MobileParameters + "get_boards");
         }
     }
 }
