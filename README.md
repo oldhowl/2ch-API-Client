@@ -12,9 +12,6 @@
 
 Если нужно пользоваться сразу двумя, можно заинжектить один общий интерфейс
 
-    //Инжектим общий
-    services.AddWakaba2ChApiClient();
-    
     class TestWakaba
     {
         IWakaba2ChApiClient _wakaba2ChApiClient;
