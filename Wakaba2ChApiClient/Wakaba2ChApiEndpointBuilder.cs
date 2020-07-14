@@ -1,30 +1,46 @@
 using System;
-using System.Linq;
+using Wakaba2ChApiClient.Helpers;
 
 namespace Wakaba2ChApiClient
 {
     internal static class Wakaba2ChApiEndpointBuilder
     {
         private const string Main2ChApiUrl = "https://2ch.hk/";
+        private const string MobileParameters = "makaba/mobile.fcgi?task=";
 
         public static Uri LiteThreadsEndpoint(string board)
         {
             board = board.Trim('/');
             return new Uri(Main2ChApiUrl).Append(board).Append("threads.json");
         }
-        
-        public static Uri AllThreadsEndpoint(string board)
+
+        public static Uri AllThreadsOrderedByDateEndpoint(string board)
         {
             board = board.Trim('/');
             return new Uri(Main2ChApiUrl).Append(board).Append("catalog_num.json");
         }
 
-
-        private static Uri Append(this Uri uri, params string[] paths)
+        public static Uri AllThreadsEndpoint(string board)
         {
-            return new Uri(paths.Aggregate(
-                uri.AbsoluteUri,
-                (current, path) => string.Format("{0}/{1}", current.TrimEnd('/'), path.TrimStart('/'))));
+            board = board.Trim('/');
+            return new Uri(Main2ChApiUrl).Append(board).Append("catalog.json");
+        }
+
+        public static Uri GetAllThreads(string board, string pageStr)
+        {
+            board = board.Trim('/');
+            return new Uri(Main2ChApiUrl).Append(board).Append($"{pageStr}.json");
+        }
+
+        public static Uri GetThreadDetails(string board, string threadNum)
+        {
+            board = board.Trim('/');
+            return new Uri(Main2ChApiUrl).Append(board).Append($"{threadNum}.json");
+        }
+
+        public static Uri ThreadOptionsEndpoint()
+        {
+            return new Uri(Main2ChApiUrl).Append(MobileParameters+ "get_boards");
         }
     }
 }

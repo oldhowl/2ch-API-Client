@@ -1,13 +1,13 @@
-Простая имплементация  клиента для 2ch.hk   
+##Простая имплементация API клиента для [2ch.hk](https://2ch.hk)   
 [Официальное описание API](https://2ch.hk/api/index.html)
 
-Инжектим сервис:
+####Инжектим сервис:
     
-    services.AddWakaba2ChApi();
+    services.AddWakaba2ChApiClient();
     
-Пользуемся:
+####Пользуемся:
 
-    var threadsFromBoard = await _wakaba2ChApi.GetLiteAllThreadsFromBoard("b");  
+    var threadsFromBoard = await _wakaba2ChApi.Client.GetAllThreadsFromBoardLite("b");  
 
     foreach (var thread in threadsFromBoard.Threads.OrderByDescending(x => x.Score))  
     {  
@@ -18,16 +18,27 @@
       Console.WriteLine(Environment.NewLine);  
     }
 
-Выделено жирным что на данный момент реализовано:
+Так же можно заинжектить отдельно общий или мобильный клиент.
+
+    services.AddWakaba2ChApiMobile();
+    services.AddWakaba2ChApi();
+    
+_Если нужно достучаться до API через прокси, передайте в билд инжекта подготовленный HttpClientHanlder_
+
+    services.AddWakaba2ChApiClient(new HttpClientHandler { Proxy = proxy });
+
+
+
+#### На данный момент реализовано (выделено жирным):
 
 > JSON для тредов и списков:   
 >
 > Треды:  
-> http(s)://2ch.hk/доска/res/номертреда.json   Список тредов:  
-> http(s)://2ch.hk/доска/номерстраницы.json (первая страница: index)  
+> **http(s)://2ch.hk/доска/res/номертреда.json   Список тредов:  
+> http(s)://2ch.hk/доска/номерстраницы.json (первая страница: index)**  
 > 
-> Все треды с сортировкой по последнему посту:  
-> http(s)://2ch.hk/доска/catalog.json  
+> **Все треды с сортировкой по последнему посту:  
+> http(s)://2ch.hk/доска/catalog.json**  
 > 
 > **Все треды с сортировкой по времени создания треда: 
 >   http(s)://2ch.hk/доска/catalog_num.json**  
@@ -37,9 +48,9 @@
 > 
 > Мобильное API   
 > 
-> Получить настройки всех досок:  
+> **Получить настройки всех досок:  
 > Пример:
-> http(s)://2ch.hk/makaba/mobile.fcgi?task=get_boards      
+> http(s)://2ch.hk/makaba/mobile.fcgi?task=get_boards**      
 > 
 > Получить все посты из треда с номера поста по доске:   
 > Пример:
