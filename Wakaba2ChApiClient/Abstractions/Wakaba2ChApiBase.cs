@@ -8,22 +8,22 @@ namespace Wakaba2ChApiClient.Abstractions
 {
     public abstract class Wakaba2ChApiBase
     {
-        private readonly HttpClient _httpClient;
+        private HttpClientHandler _httpClientHandler;
 
         protected Wakaba2ChApiBase(HttpClientHandler httpClientHandler = null)
         {
-            _httpClient = new HttpClient(httpClientHandler ?? new HttpClientHandler());
+            _httpClientHandler = httpClientHandler;
         }
 
         protected async Task<T> Get<T>(string url)
         {
-            using (_httpClient)
+            using (var httpClient = new HttpClient(_httpClientHandler, false))
             {
                 var responseMessage =
-                    await _httpClient.GetAsync(url);
-                
+                    await httpClient.GetAsync(url);
+
                 var body = await responseMessage.Content.ReadAsStringAsync();
-                
+
                 if (!responseMessage.IsSuccessStatusCode)
                     throw new Wakaba2ChHttpException(responseMessage.StatusCode, body);
 
