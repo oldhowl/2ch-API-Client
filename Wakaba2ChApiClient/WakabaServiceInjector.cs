@@ -41,7 +41,7 @@ namespace Wakaba2ChApiClient
             return services
                 .AddWakaba2ChApi(httpClientHandler)
                 .AddWakaba2ChApiMobile(httpClientHandler)
-                .AddSingleton<IWakaba2ChApiClient>();
+                .AddSingleton<IWakaba2ChApiClient, Wakaba2ChApiClient>();
         }
     }
 }
