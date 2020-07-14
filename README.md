@@ -1,5 +1,8 @@
-##Простая имплементация API клиента для [2ch.hk](https://2ch.hk)   
+##API клиент для [2ch.hk](https://2ch.hk)   
+
 [Официальное описание API](https://2ch.hk/api/index.html)
+
+Клиенты логически разбиты на два класса Wakaba2ChApi и Wakaba2ChApiMobile по описанию API.
 
 ####Инжектим сервис:
     
@@ -7,26 +10,55 @@
     
 ####Пользуемся:
 
-    var threadsFromBoard = await _wakaba2ChApi.Client.GetAllThreadsFromBoardLite("b");  
+Если нужно пользоваться сразу двумя, можно заинжектить один общий интерфейс
 
-    foreach (var thread in threadsFromBoard.Threads.OrderByDescending(x => x.Score))  
-    {  
-      Console.WriteLine($"Тред: {thread.Subject}");  
-      Console.WriteLine($"Просмотров: {thread.Views}");  
-      Console.WriteLine($"Текст: {thread.Comment}");  
-      Console.WriteLine($"Ответов: {thread.PostsCount}");  
-      Console.WriteLine(Environment.NewLine);  
+    //Инжектим общий
+    services.AddWakaba2ChApiClient();
+    
+    class TestWakaba
+    {
+        IWakaba2ChApiClient _wakaba2ChApiClient;
+        
+        //Достаем из DI
+        public TestWakaba(IWakaba2ChApiClient wakaba2ChApiClient)
+        {
+            _wakaba2ChApiClient = wakaba2ChApiClient;
+        }
+        
+        //Юзаем
+        public async Task GetThreads()
+        {
+            //Общее API
+            var threadsFromBoard = await _wakaba2ChApiClient.Client.GetAllThreadsFromBoardLite("b");  
+            foreach (var thread in threadsFromBoard.Threads.OrderByDescending(x => x.Score))  
+                {  
+                  Console.WriteLine($"Тред: {thread.Subject}");  
+                  Console.WriteLine($"Просмотров: {thread.Views}");  
+                  Console.WriteLine($"Текст: {thread.Comment}");  
+                  Console.WriteLine($"Ответов: {thread.PostsCount}");  
+                  Console.WriteLine(Environment.NewLine);  
+                }
+                
+            //Мобильное API
+            var threadOptions = await _wakaba2ChApiClient.ClientMobile.GetThreadOptions();
+            ...
+        }
+        
     }
 
 Так же можно заинжектить отдельно общий или мобильный клиент.
-
-    services.AddWakaba2ChApiMobile();
-    services.AddWakaba2ChApi();
+    
+    //Отдельно каждый
+    services.AddWakaba2ChApiMobile(); //В DI достаем IWakaba2ChApiMobile 
+    services.AddWakaba2ChApi();       //В DI достаем IWakaba2ChApi
     
 _Если нужно достучаться до API через прокси, передайте в билд инжекта подготовленный HttpClientHanlder_
 
     services.AddWakaba2ChApiClient(new HttpClientHandler { Proxy = proxy });
-
+    
+    //или без DI   
+    var dvachApiClientMobile = new Wakaba2ChApiMobile(new HttpClientHandler { Proxy = proxy });
+    var dvachApiClientCommon = new Wakaba2ChApi(new HttpClientHandler { Proxy = proxy });
 
 
 #### На данный момент реализовано (выделено жирным):

@@ -2,7 +2,7 @@ using Wakaba2ChApiClient.Interfaces;
 
 namespace Wakaba2ChApiClient
 {
-    internal class Wakaba2ChApiClient : IWakaba2ChApiClient
+    public class Wakaba2ChApiClient : IWakaba2ChApiClient
     {
         public IWakaba2ChApi Client { get; }
         public IWakaba2ChApiMobile ClientMobile { get; }
