@@ -12,7 +12,7 @@ namespace Wakaba2ChApiClient.Abstractions
 
         protected Wakaba2ChApiBase(HttpClientHandler httpClientHandler = null)
         {
-            _httpClientHandler = httpClientHandler;
+            _httpClientHandler = httpClientHandler ?? new HttpClientHandler();
         }
 
         protected async Task<T> Get<T>(string url)
