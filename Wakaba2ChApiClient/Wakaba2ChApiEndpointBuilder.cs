@@ -36,8 +36,8 @@ namespace Wakaba2ChApiClient
         public static Uri GetThread(string board, string threadNum, int posts)
         {
             board = board.Trim('/');
-            return new Uri(Path.Combine(Main2ChApiUrl,
-                $"/makaba/mobile.fcgi?task=get_thread&board={board}&thread={threadNum}&post={posts}"));
+            return new Uri(
+                $"{Main2ChApiUrl}/makaba/mobile.fcgi?task=get_thread&board={board}&thread={threadNum}&post={posts}");
         }
 
         public static Uri GetThreadDetails(string board, string threadNum)

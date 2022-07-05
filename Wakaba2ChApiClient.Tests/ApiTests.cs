@@ -25,5 +25,12 @@ namespace Wakaba2ChApiClient.Tests
             var threadOptions = await _wakaba2ChApiMobile.GetThreadOptions();
             Assert.True(threadOptions.Art != null);
         }
+
+        [Test]
+        public async Task GetAllPost()
+        {
+            var t = await _wakaba2ChApi.GetThreadPosts("b", "270548366",0);
+            Assert.True(t.Any());
+        }
     }
 }
