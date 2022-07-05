@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wakaba2ChApiClient.Exceptions;
 using Wakaba2ChApiClient.Models;
@@ -23,7 +24,7 @@ namespace Wakaba2ChApiClient.Interfaces
         /// <exception cref="Wakaba2ChHttpException">HTTP ошибка</exception>
         /// <exception cref="Wakaba2ChSerializationException">Ошибка десериализации</exception>
         Task<AllThreads> GetAllThreadsFromBoardOrderedByDate(string board);
-        
+
         /// <summary>
         /// Все треды с сортировкой по последнему посту:
         /// </summary>
@@ -52,5 +53,14 @@ namespace Wakaba2ChApiClient.Interfaces
         /// <exception cref="Wakaba2ChHttpException">HTTP ошибка</exception>
         /// <exception cref="Wakaba2ChSerializationException">Ошибка десериализации</exception>
         Task<ThreadDetails> GetThreadDetails(string board, string threadNum);
+
+        /// <summary>
+        /// Получить посты треда
+        /// </summary>
+        /// <param name="board">Имя доски, например "/b", "b", "/b/", "b/"</param>
+        /// <param name="threadNum">id треда</param>
+        /// <param name="post">С какого номера поста получить посты</param>
+        /// <returns></returns>
+        Task<IEnumerable<ThreadPost>> GetThreadPosts(string board, string threadNum, int post = 0);
     }
 }

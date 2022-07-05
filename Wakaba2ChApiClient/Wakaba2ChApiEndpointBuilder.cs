@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Wakaba2ChApiClient.Helpers;
 
 namespace Wakaba2ChApiClient
@@ -30,6 +31,13 @@ namespace Wakaba2ChApiClient
         {
             board = board.Trim('/');
             return new Uri(Main2ChApiUrl).Append(board).Append($"{pageStr}.json");
+        }
+
+        public static Uri GetThread(string board, string threadNum, int posts)
+        {
+            board = board.Trim('/');
+            return new Uri(Path.Combine(Main2ChApiUrl,
+                $"/makaba/mobile.fcgi?task=get_thread&board={board}&thread={threadNum}&post={posts}"));
         }
 
         public static Uri GetThreadDetails(string board, string threadNum)
